@@ -19,13 +19,9 @@ function game()
     scene = new THREE.Scene();
     camera = new THREE.PerspectiveCamera( 45, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-    // camera view set
-    camera.rotation.x = 0; // for top view
     camera.position.y = 0; // for top view 
     camera.position.z = 400;
-    // camera view set
-
-    // board, striker, red_coin added
+    camera.rotation.x = 0; // for top view
     board = new THREE.Mesh(new THREE.CubeGeometry( 300, 300, 10), new THREE.MeshBasicMaterial( { map: THREE.ImageUtils.loadTexture('image.jpg') }));
 
     striker = new THREE.Mesh(new THREE.CircleGeometry(10,30), new THREE.MeshBasicMaterial({color:'grey', wireframe: false}))
@@ -37,10 +33,7 @@ function game()
     var red_coin = new THREE.Mesh(new THREE.CylinderGeometry(5,5,1), new THREE.MeshBasicMaterial({color:'red', wireframe: false}))
     red_coin.position.z = 10;
     red_coin.rotation.x = 1-camera.rotation.x;
-    scene.add(board, striker, red_coin);
-    // board, striker, red_coin added
 
-    // coins added
     var whitecoin1 = new THREE.Mesh(new THREE.CylinderGeometry(5,5,1), new THREE.MeshBasicMaterial({color:'white', wireframe: false}))
     whitecoin1.position.x = 10;
     whitecoin1.position.y = 10;
@@ -96,9 +89,9 @@ function game()
     blackcoin4.position.z = 10;
     blackcoin4.rotation.x = 1-camera.rotation.x;
     scene.add(blackcoin4);
-    // coins added
 
-    // arrow added
+        
+    scene.add(board, striker, red_coin);
     targetx= striker.position.x;
     targety= striker.position.y;
     source_pos = new THREE.Vector3 (striker.position.x , striker.position.y,striker.position.z +15);
@@ -106,24 +99,25 @@ function game()
 	direction =  new THREE.Vector3 (). sub(target_pos,source_pos);
 	arrow = new THREE.ArrowHelper (direction.clone().normalize(),source_pos, 100,'pink');
 	scene.add(arrow);
-    // arrow added
 
 
-    rr = new THREE.WebGLRenderer();  // renderer variable
+    rr = new THREE.WebGLRenderer();               //renderer variable
     rr.setSize( window.innerWidth, window.innerHeight );
     document.body.appendChild( rr.domElement );
-    document.addEventListener('keypress', movements);  // execute function on keypress
+    document.addEventListener('keypress', movements, false);
     render();
 }
+  
+function animate() {
 
-function animate()
-{
     render();
     requestAnimationFrame( animate );
 }
+  
 
 
-function render()
+function render() 
+
 {
     rr.render( scene, camera );
 }
@@ -175,6 +169,8 @@ function arrowpos()
 		camview=true;
 		setcamera();
 	}
+
+
  }
 
  //THREE.Collisions.colliders.push(
@@ -192,7 +188,7 @@ playsound();
 
 function setcamera(){
 	camera.position.y = striker.position.y;
-    camera.position.z = striker.position.z+15;
+    	camera.position.z = striker.position.z+15;
 	camera.position.x = striker.position.x;
-    camera.rotation.x = 1;
+    	camera.rotation.x = 1;
 }
